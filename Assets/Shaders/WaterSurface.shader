@@ -3,7 +3,8 @@ Shader "Custom/WaterSurface"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _WaveSpeed("Wave Speed", Float) = 1.0
+        _WaveSpeed_y("y speed", Float) = 1.0
+        _WaveSpeed_x("x speed", Float) = 1.0
     }
 
     SubShader
@@ -16,6 +17,8 @@ Shader "Custom/WaterSurface"
         #pragma target 3.0
 
         sampler2D _MainTex;
+        float _WaveSpeed_x;
+        float _WaveSpeed_y;
 
         struct Input
         {
@@ -25,8 +28,8 @@ Shader "Custom/WaterSurface"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             fixed2 uv = IN.uv_MainTex;
-            uv.x += 0.1 * _Time;
-            uv.y += 0.2 * _Time;
+            uv.x += _WaveSpeed_x * _Time;
+            uv.y += _WaveSpeed_y * _Time;
             o.Albedo = tex2D(_MainTex, uv);
         }
         ENDCG
